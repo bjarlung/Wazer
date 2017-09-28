@@ -1,11 +1,9 @@
 package com.wazer.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class UserRepositoryJDBC implements UserRepository{
 	private Connection connection = JDBCUtil.getInstance().getConnection();
@@ -28,6 +26,7 @@ public class UserRepositoryJDBC implements UserRepository{
 				user.setFname(resultSet.getString("fname"));
 				user.setLname(resultSet.getString("lname"));
 				user.setUsername(username);
+				//user.setId(resultSet.getInt("user_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,7 +54,7 @@ public class UserRepositoryJDBC implements UserRepository{
 	}
 
 	@Override
-	public boolean changeUserInfo() {
+	public boolean editUser() {
 		// TODO Auto-generated method stub
 		return false;
 	}

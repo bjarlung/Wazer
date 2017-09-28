@@ -17,7 +17,7 @@ public class UserController {
 
 	}
 
-	public void promptToSignIn() {
+	public User promptToSignIn() {
 		boolean validChoice = false;
 		while(!validChoice) {
 			System.out.println("What would you like to do? \n 1. log in \n 2. sign up");
@@ -29,7 +29,8 @@ public class UserController {
 				registerUser();
 				validChoice = true;
 			}
-		} 
+		}
+		return activeUser;
 	}
 
 	private void logIn() {
@@ -40,9 +41,9 @@ public class UserController {
 			System.out.println("Please enter you password: ");
 			String password = scanner.nextLine();
 			user = userRepo.getUser(username, password);
-		}
-		System.out.println("You have successfully logged in");
+		}		
 		setActiveUser(user);
+		System.out.println(activeUser.getFname() + " " + activeUser.getLname() + ". You have successfully logged in");
 	}
 
 	private void registerUser() {
@@ -68,9 +69,6 @@ public class UserController {
 	private void setActiveUser(User activeUser) {
 		this.activeUser = activeUser;
 	}
-
-
-
 
 
 }

@@ -15,30 +15,30 @@ public class WazerMain {
 		new Controller();
 		
 		
+		
+		
+		//temp
 		try {
 			Connection connection = JDBCUtil.getInstance().getConnection();
-			Statement statement = connection.createStatement();
-			
+			Statement statement = connection.createStatement();		
 			String sqlQuery = "SELECT* FROM users";
+			
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			printTable(resultSet);
-			
-			System.out.println("__________________________________________________");
-			
+				
 			resultSet = null;
 			
-			
-	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//temp end
 
 	}
 
 	
 	
 	
-
+	//temp metod för att kolla db
 	public static void printTable(ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
