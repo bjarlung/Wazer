@@ -6,15 +6,14 @@ import com.wazer.model.User;
 import com.wazer.model.UserRepository;
 import com.wazer.model.UserRepositoryJDBC;
 
-public class UserController {
+public class LoginController {
 	private User activeUser;
 	Scanner scanner;
 	UserRepository userRepo;
 
-	public UserController() {
+	public LoginController() {
 		scanner = new Scanner(System.in);
 		userRepo= new UserRepositoryJDBC();
-
 	}
 
 	public User promptToSignIn() {
@@ -69,6 +68,16 @@ public class UserController {
 	private void setActiveUser(User activeUser) {
 		this.activeUser = activeUser;
 	}
+
+	public UserRepository getUserRepo() {
+		return userRepo;
+	}
+
+	public void setUserRepo(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+	
+	
 
 
 }

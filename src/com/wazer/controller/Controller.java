@@ -3,27 +3,29 @@ package com.wazer.controller;
 import com.wazer.model.User;
 
 public class Controller {
-	private UserController userController;
+	private LoginController loginController;
 	private PostController postController;
-	
+
 	public Controller() {
 		System.out.println("Welcome to Wazer");
-		userController = new UserController();
-		
-		
-		userController.promptToSignIn();
-		User user = userController.getActiveUser();
-		
+		loginController = new LoginController();
+
+
+		loginController.promptToSignIn();
+		User user = loginController.getActiveUser();
+
 		postController = new PostController(user);
+
+
+		//TODO get the users posts, set to List ??
 		
-		
-		//TODO get the users posts, set to List
-		
-		
-		postController.displayMenu();
-		
-				
+		boolean quit = false;		
+		while(!quit) {
+			quit = postController.displayPostMenu();
+		}
+
+
 	}
-	
+
 
 }

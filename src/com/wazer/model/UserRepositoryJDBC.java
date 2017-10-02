@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class UserRepositoryJDBC implements UserRepository{
 	private Connection connection = JDBCUtil.getInstance().getConnection();
 	private PreparedStatement prepStatement;
-	private static final String LOG_IN_QUERY = "SELECT fname, lname FROM users WHERE username=? AND password=?";
+	private static final String LOG_IN_QUERY = "SELECT user_id, fname, lname FROM users WHERE username=? AND password=?";
 	private static final String NEW_USER_QUERY = "INSERT INTO users(username, password, fname, lname) VALUES(?, ?, ?, ?)";
 	private ResultSet resultSet;
 
@@ -26,7 +26,7 @@ public class UserRepositoryJDBC implements UserRepository{
 				user.setFname(resultSet.getString("fname"));
 				user.setLname(resultSet.getString("lname"));
 				user.setUsername(username);
-				//user.setId(resultSet.getInt("user_id"));
+				user.setId(resultSet.getInt("user_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

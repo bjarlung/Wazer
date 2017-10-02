@@ -15,18 +15,27 @@ public class WazerMain {
 		new Controller();
 		
 		
-		
-		
+	
 		//temp
 		try {
 			Connection connection = JDBCUtil.getInstance().getConnection();
 			Statement statement = connection.createStatement();		
-			String sqlQuery = "SELECT* FROM users";
 			
-			ResultSet resultSet = statement.executeQuery(sqlQuery);
-			printTable(resultSet);
-				
+			ResultSet resultSet = statement.executeQuery("SELECT* FROM users");
+			printTable(resultSet);	
+			
 			resultSet = null;
+			
+			resultSet = statement.executeQuery("SELECT *FROM posts");
+			printTable(resultSet);
+			
+			resultSet = null;
+			
+			resultSet = statement.executeQuery("SELECT *FROM subject_types");
+			printTable(resultSet);
+			
+			resultSet = null;
+			statement = null;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,6 +68,7 @@ public class WazerMain {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(System.getProperty("line.separator"));
 
 	}
 }
