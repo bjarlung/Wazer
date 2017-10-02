@@ -3,7 +3,6 @@ package com.wazer.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class PostRepositoryJDBC implements PostRepository{
 			prepStatement = connection.prepareStatement(REQUEST_BY_ID);
 			prepStatement.setInt(1, primaryKey);
 			resultSet = prepStatement.executeQuery();
-			printTable(resultSet);
+			DisplayUtil.printTable(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +49,7 @@ public class PostRepositoryJDBC implements PostRepository{
 			prepStatement = connection.prepareStatement(REQUEST_BY_USER);
 			prepStatement.setInt(1, userId);
 			resultSet = prepStatement.executeQuery();
-			printTable(resultSet);
+			DisplayUtil.printTable(resultSet);
 
 			
 			resultSet.beforeFirst();
@@ -65,27 +64,6 @@ public class PostRepositoryJDBC implements PostRepository{
 		return postIdList;
 	}
 
-	private void printTable(ResultSet resultSet) {
-		try {
-			ResultSetMetaData metaData = resultSet.getMetaData();
-			int columnsNumber = metaData.getColumnCount();
-			for(int i= 1; i<=columnsNumber; i++) {
-				System.out.print(metaData.getColumnName(i)+ " | ");
-			}
-			System.out.println("");
-
-			while(resultSet.next()) {
-				for(int i= 1; i<=columnsNumber; i++) {
-					System.out.print(resultSet.getString(i)+ " | ");
-				}
-				System.out.println("");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println(System.getProperty("line.separator"));
-	}
 
 
 	@Override

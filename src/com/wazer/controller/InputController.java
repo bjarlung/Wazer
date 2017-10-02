@@ -2,26 +2,26 @@ package com.wazer.controller;
 
 import java.util.List;
 import java.util.Scanner;
-
 import com.wazer.model.Post;
 import com.wazer.model.PostRepository;
-import com.wazer.model.PostRepositoryJDBC;
 import com.wazer.model.TypeRepository;
-import com.wazer.model.TypeRepositoryJDBC;
 import com.wazer.model.User;
+import com.wazer.model.UserRepository;
 
 
-public class PostController {
+public class InputController {
 
 	Scanner scanner;
 	PostRepository postRepo;
 	TypeRepository typeRepo;
+	UserRepository userRepo;
 	User user;
 
-	public PostController(User user) {
+	public InputController(User user, PostRepository postRepo, TypeRepository typeRepo, UserRepository userRepo) {
 		scanner = new Scanner(System.in);
-		postRepo = new PostRepositoryJDBC();
-		typeRepo = new TypeRepositoryJDBC();
+		this.postRepo = postRepo;
+		this.typeRepo = typeRepo;
+		this.userRepo = userRepo;
 		this.user = user;
 	}
 
@@ -29,7 +29,7 @@ public class PostController {
 		boolean quit = false;
 		boolean validChoice = false;
 		while(!validChoice) {
-			System.out.println("What would you like to do? \n 1. Write new post \n 2. Edit post \n 3. Read post \n 4. Quit \n");
+			System.out.println("What would you like to do? \n 1. Write new post \n 2. Edit post \n 3. Read post \n 4. Find friends \n 5. Quit \n");
 			String input = scanner.nextLine();
 			if(input.equals("1")) {
 				createNewPost();
@@ -41,6 +41,9 @@ public class PostController {
 				readPost();
 				validChoice = true;
 			} else if(input.equals("4")) {
+				promtForSearch();							
+				validChoice = true;
+			} else if(input.equals("5")) {
 				quit = true;
 				validChoice = true;
 			} else {
@@ -48,6 +51,12 @@ public class PostController {
 			}
 		} 	
 		return quit;
+	}
+
+	private void promtForSearch() {
+		System.out.println("Who are you looking for? ");
+		String input = scanner.nextLine();
+		userRepo.displayUsers(input);
 	}
 
 	private void readPost() {

@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UserRepositoryJDBC implements UserRepository{
 	private Connection connection = JDBCUtil.getInstance().getConnection();
 	private PreparedStatement prepStatement;
 	private static final String LOG_IN_QUERY = "SELECT user_id, fname, lname FROM users WHERE username=? AND password=?";
 	private static final String NEW_USER_QUERY = "INSERT INTO users(username, password, fname, lname) VALUES(?, ?, ?, ?)";
+	private Statement statement;
 	private ResultSet resultSet;
 
 	@Override
@@ -63,6 +65,23 @@ public class UserRepositoryJDBC implements UserRepository{
 	public boolean deleteUser(int primaryKey) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void displayUsers(String searchString) {
+		String query ="SELECT user_id, username, fname, lname FROM users WHERE fname LIKE '"
+				+ searchString + "%' OR lname LIKE '" + searchString +"%'";
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);		
+			DisplayUtil.printTable(resultSet);					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 
 }

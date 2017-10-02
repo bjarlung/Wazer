@@ -13,7 +13,7 @@ public class TypeRepositoryJDBC implements TypeRepository{
 	private Statement statement;
 	private ResultSet resultSet;
 	private static final String INSERT_QUERY = "INSERT INTO subject_types(type_name) VALUES(?)";
-	private static final String REQUEST_QUERY = "SELECT type_name FROM subject_types WHERE type_id=?";
+	//private static final String REQUEST_QUERY = "SELECT type_name FROM subject_types WHERE type_id=?";
 	private static final String REQUEST_ID_QUERY = "SELECT type_id FROM subject_types WHERE type_name=?";
 	private static final String GET_ID = "SELECT LAST_INSERT_ID()";
 	

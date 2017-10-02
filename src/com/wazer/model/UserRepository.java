@@ -5,5 +5,5 @@ public interface UserRepository {
 	User createNewUser(String username, String password, String fname, String lname);
 	boolean editUser();
 	boolean deleteUser(int primaryKey);
-	
+	void displayUsers(String searchString);
 }
