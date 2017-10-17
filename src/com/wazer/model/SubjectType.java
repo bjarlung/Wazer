@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SubjectType {
 	
-	private int typeId;
+	private int typeId; 
 	private String typeName;
 	private List<Post> postList;
 	

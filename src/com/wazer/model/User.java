@@ -1,6 +1,6 @@
 package com.wazer.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class User extends Person{
@@ -11,7 +11,7 @@ public class User extends Person{
 	
 	public User() {
 		super();
-		postList = new ArrayList<>();
+		postList = new LinkedList<>();
 	}
 
 	public String getUsername() {
