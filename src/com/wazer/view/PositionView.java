@@ -1,11 +1,15 @@
 package com.wazer.view;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -13,11 +17,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PositionBoard extends Application{
-	public static final int lONG_LAT_POSITIONS = 5;
-	public static final int SCENE_SIZE = 600;
-	public static final int BOARD_SIZE = 500;
+public class PositionView extends Application{
+
+	public static final int SCENE_HEIGHT = 600;
+	public static final int SCENE_WIDTH = 900;
+
 	private Button quitButton;
+	private PostViewer postViewer; 
+
 
 	public static void main(String[] args){
 		launch(args);
@@ -29,30 +36,24 @@ public class PositionBoard extends Application{
 		
 		quitButton = new Button("Quit");
 		quitButton.setOnAction(e -> primaryStage.close());
+		
+		postViewer = new PostViewer();
+
+		
+		
 		BorderPane layout = new BorderPane();
-		layout.setRight(quitButton);
+		layout.setRight(postViewer);
+		layout.setBottom(quitButton);
 		BorderPane.setAlignment(quitButton, Pos.BOTTOM_CENTER);
 		
-		//Setting up board
-		VBox boardLabelBox = new VBox();
-		layout.setCenter(boardLabelBox);
-		boardLabelBox.setPadding(new Insets(20));
 		
-		int labelSize = BOARD_SIZE/lONG_LAT_POSITIONS;
-		for(int i = 0; i < lONG_LAT_POSITIONS; i++) {
-			HBox hbox = new HBox();
-			boardLabelBox.getChildren().add(hbox);
-			for(int j = 0; j < lONG_LAT_POSITIONS; j++) {		
-				BoardLabel label = new BoardLabel(i, j);
-				label.setText(i + "," + j);
-				label.setPrefSize(labelSize, labelSize);
-				label.setStyle("-fx-border-color: black;");
-				hbox.getChildren().add(label);			
-			}
-		}
+		Board board = new Board();
+		layout.setCenter(board);
+		
 		
 		//adding scene and showing stage
-		Scene scene = new Scene(layout, 600, 600);	
+		Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);	
+		board.setListener(scene);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
