@@ -3,9 +3,13 @@ package com.wazer.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -14,29 +18,31 @@ public class Board extends StackPane{
 	Map<String,BoardLabel> boardMap;
 	public static final int BOARD_SIZE = 500;
 	public static final int lONG_LAT_POSITIONS = 5;
-	VBox boardLabelBox;
-	BoardLabel activeLabel;
+	private VBox boardLabelBox;
+	private BoardLabel activeLabel;
+	private BooleanProperty activeChanged;
+	
 
 	public Board() {		
 		boardMap = new HashMap<>();
 		
 		initLabels();		
+		this.getChildren().add(boardLabelBox);	
+		activeChanged = new SimpleBooleanProperty(false);
 		activeLabel = boardMap.get("32");
 		activeLabel.setActive(true);
-		this.getChildren().add(boardLabelBox);
-		
-
+		activeChanged.set(true);
 	}
 
-	public void setListener(Scene scene) {
+	public void setLocalListener(Scene scene) {
 		scene.setOnKeyPressed(e -> move(e.getCode()));
 	}
 
 
 	private void move(KeyCode code) {
 		boolean isChanged = false;
-		int latitude = activeLabel.getLatitude();
-		int longitude = activeLabel.getLongitude();
+		int latitude = activeLabel.getPosition().getLatitude();
+		int longitude = activeLabel.getPosition().getLongitude();
 		switch (code) {
 		case UP:
 			if(latitude > 0) {
@@ -66,8 +72,10 @@ public class Board extends StackPane{
 			break;
 		}
 		
-		if(isChanged)
-			activateLabel(convertToId(latitude, longitude));		
+		if(isChanged) {
+			activateLabel(convertToId(latitude, longitude));
+			activeChanged.set(true);
+		}
 	}
 
 
@@ -98,5 +106,25 @@ public class Board extends StackPane{
 		activeLabel = boardMap.get(labelId);
 		activeLabel.setActive(true);
 	}
+
+	public void setExternalHandler(ChangeListener<Boolean> handler) {
+		activeChanged.addListener(handler);
+		System.out.println("setting listener");
+	}
+
+	public BoardLabel getActiveLabel() {
+		return activeLabel;
+	}
+
+	public void setActiveChanged(BooleanProperty activeChanged) {
+		this.activeChanged = activeChanged;
+	}
+
+	public BooleanProperty getActiveChanged() {
+		return activeChanged;
+	}
+	
+	
+
 
 }

@@ -2,11 +2,15 @@ package com.wazer.controller;
 
 import java.util.List;
 import java.util.Scanner;
+
+import com.wazer.WazerMain;
 import com.wazer.model.Post;
 import com.wazer.model.PostRepository;
 import com.wazer.model.TypeRepository;
 import com.wazer.model.User;
 import com.wazer.model.UserRepository;
+import com.wazer.view.PositionView;
+import com.wazer.view.View;
 
 
 public class InputController {
@@ -16,6 +20,7 @@ public class InputController {
 	TypeRepository typeRepo;
 	UserRepository userRepo;
 	User user;
+	View view;
 
 	public InputController(User user, PostRepository postRepo, TypeRepository typeRepo, UserRepository userRepo) {
 		scanner = new Scanner(System.in);
@@ -29,7 +34,8 @@ public class InputController {
 		boolean quit = false;
 		boolean validChoice = false;
 		while(!validChoice) {
-			System.out.println("What would you like to do? \n 1. Write new post \n 2. Edit post \n 3. Read post \n 4. Find friends \n 5. Quit \n");
+			System.out.println("What would you like to do? \n 1. Write new post \n 2. Edit post "
+					+ "\n 3. Read post \n 4. Find friends \n 5. Quit \n");
 			String input = scanner.nextLine();
 			if(input.equals("1")) {
 				createNewPost();
@@ -60,7 +66,10 @@ public class InputController {
 	}
 
 	private void readPost() {
-		boolean isValid = false;
+		
+		view = new PositionView(WazerMain.getArgs());
+		
+		/*boolean isValid = false;
 		String input = "";
 		while(!isValid) {
 			//TODO enter username
@@ -69,6 +78,7 @@ public class InputController {
 			isValid = checkIfInt(input);
 		}
 		postRepo.requestPostByUser(Integer.parseInt(input));
+		*/
 	}
 
 	private void createNewPost() {

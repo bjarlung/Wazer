@@ -18,7 +18,7 @@ public class JDBCUtil {
 		try {
 			connection = DriverManager.getConnection(URL, USER, PASS);
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}

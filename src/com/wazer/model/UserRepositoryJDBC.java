@@ -18,6 +18,7 @@ public class UserRepositoryJDBC implements UserRepository{
 	public User getUser(String username, String password) {
 		User user = null;
 		try {			
+			System.out.println(connection);
 			prepStatement = connection.prepareStatement(LOG_IN_QUERY);
 			prepStatement.setString(1, username);
 			prepStatement.setString(2, password);

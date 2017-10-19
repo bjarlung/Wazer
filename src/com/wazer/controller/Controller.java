@@ -7,6 +7,10 @@ import com.wazer.model.TypeRepositoryJDBC;
 import com.wazer.model.User;
 import com.wazer.model.UserRepository;
 import com.wazer.model.UserRepositoryJDBC;
+import com.wazer.view.PositionView;
+import com.wazer.view.View;
+
+import javafx.application.Application;
 
 public class Controller {
 	private LoginController loginController;
@@ -22,6 +26,8 @@ public class Controller {
 		
 		PostRepository postRepo = new PostRepositoryJDBC();
 		TypeRepository typeRepo = new TypeRepositoryJDBC();
+		
+		
 		inputController = new InputController(user, postRepo, typeRepo, userRepo);
 
 

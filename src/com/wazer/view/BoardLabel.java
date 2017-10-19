@@ -1,16 +1,18 @@
 package com.wazer.view;
 
+import com.wazer.model.Position;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 
 public class BoardLabel extends Label {
-	private int longitude;
-	private int latitude;
+	private Position position;
 	private boolean isActive;
 	
 	public BoardLabel(int latitude, int longitude, int labelSize) {
-		this.longitude = longitude;
-		this.latitude = latitude;
+		position = new Position();
+		position.setLatitude(latitude);
+		position.setLongitude(longitude);
 		isActive = false;
 		this.setPrefSize(labelSize, labelSize);
 		
@@ -18,13 +20,19 @@ public class BoardLabel extends Label {
 		//this.setStyle("-fx-border-color: black;");
 	}
 
-	public int getLongitude() {
-		return longitude;
+	
+
+	public Position getPosition() {
+		return position;
 	}
 
-	public int getLatitude() {
-		return latitude;
+
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
+
+
 
 	public boolean isActive() {
 		return isActive;

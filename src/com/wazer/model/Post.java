@@ -1,13 +1,16 @@
 package com.wazer.model;
 
-public class Post {
+public class Post implements Positionable{
 	private int postId;
 	private String header;
 	private String content;
 	private User author;
 	private SubjectType subjectType;
+	private Position position;
 	
-	public Post() {}
+	public Post() {
+		position = new Position();
+	}
 
 	public int getPostId() {
 		return postId;
@@ -47,6 +50,17 @@ public class Post {
 
 	public void setSubjectType(SubjectType subjectType) {
 		this.subjectType = subjectType;
+	}
+	
+	@Override
+	public Position getPosition() {
+		return position;
+	}
+
+	@Override
+	public void setPosition(int latitude, int longitude) {
+		position.setLatitude(latitude);
+		position.setLongitude(longitude);		
 	}
 	
 	
