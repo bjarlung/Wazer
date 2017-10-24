@@ -3,6 +3,9 @@ package com.wazer.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wazer.model.Position;
+import com.wazer.model.UserUtil;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -15,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Board extends StackPane{
-	Map<String,BoardLabel> boardMap;
+	Map<String, BoardLabel> boardMap;
 	public static final int BOARD_SIZE = 500;
 	public static final int lONG_LAT_POSITIONS = 5;
 	private VBox boardLabelBox;
@@ -29,9 +32,10 @@ public class Board extends StackPane{
 		initLabels();		
 		this.getChildren().add(boardLabelBox);	
 		activeChanged = new SimpleBooleanProperty(false);
-		activeLabel = boardMap.get("32");
+		String userPositionAsString = UserUtil.getActiveUser().getPosition().toString();
+		activeLabel = boardMap.get(userPositionAsString);
+		System.out.println("setting ActiveLabel in board to: "+ activeLabel);
 		activeLabel.setActive(true);
-		activeChanged.set(true);
 	}
 
 	public void setLocalListener(Scene scene) {
@@ -45,26 +49,26 @@ public class Board extends StackPane{
 		int longitude = activeLabel.getPosition().getLongitude();
 		switch (code) {
 		case UP:
-			if(latitude > 0) {
-				latitude-=1;
-				isChanged = true;
-			}
-			break;
-		case DOWN:
-			if(latitude < lONG_LAT_POSITIONS-1) {
-				latitude+=1;
-				isChanged = true;
-			}
-			break;
-		case LEFT:
 			if(longitude > 0) {
 				longitude-=1;
 				isChanged = true;
 			}
 			break;
-		case RIGHT:
+		case DOWN:
 			if(longitude < lONG_LAT_POSITIONS-1) {
 				longitude+=1;
+				isChanged = true;
+			}
+			break;
+		case LEFT:
+			if(latitude > 0) {
+				latitude-=1;
+				isChanged = true;
+			}
+			break;
+		case RIGHT:
+			if(latitude < lONG_LAT_POSITIONS-1) {
+				latitude+=1;
 				isChanged = true;
 			}
 			break;
@@ -75,6 +79,7 @@ public class Board extends StackPane{
 		if(isChanged) {
 			activateLabel(convertToId(latitude, longitude));
 			activeChanged.set(true);
+			System.out.println("move=true in board");
 		}
 	}
 
@@ -83,11 +88,14 @@ public class Board extends StackPane{
 		boardLabelBox = new VBox();
 		boardLabelBox.setPadding(new Insets(20));
 		int labelSize = BOARD_SIZE/lONG_LAT_POSITIONS;
-		for(int latitude = 0; latitude < lONG_LAT_POSITIONS; latitude++) {
+		for(int longitude = 0; longitude < lONG_LAT_POSITIONS; longitude++) {
 			HBox hbox = new HBox();
 			boardLabelBox.getChildren().add(hbox);
-			for(int longitude = 0; longitude < lONG_LAT_POSITIONS; longitude++) {		
-				BoardLabel label = new BoardLabel(latitude, longitude, labelSize);			
+			for(int latitude = 0; latitude < lONG_LAT_POSITIONS; latitude++) {
+				Position position = new Position();
+				position.setLatitude(latitude);
+				position.setLongitude(longitude);
+				BoardLabel label = new BoardLabel(position, labelSize);			
 				hbox.getChildren().add(label);
 				String id = convertToId(latitude, longitude);
 				label.setId(id);
@@ -107,9 +115,9 @@ public class Board extends StackPane{
 		activeLabel.setActive(true);
 	}
 
-	public void setExternalHandler(ChangeListener<Boolean> handler) {
-		activeChanged.addListener(handler);
-		System.out.println("setting listener");
+	public void setExternalListener(ChangeListener<Boolean> listener) {
+		activeChanged.addListener(listener);
+		//activeChanged.set(true);
 	}
 
 	public BoardLabel getActiveLabel() {

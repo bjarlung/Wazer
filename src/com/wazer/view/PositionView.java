@@ -2,10 +2,13 @@ package com.wazer.view;
 
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.wazer.model.Position;
+import com.wazer.model.Post;
+import com.wazer.model.UserUtil;
 
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -25,7 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PositionView extends Application implements View{
+public class PositionView implements View{
 
 	public static final int SCENE_HEIGHT = 600;
 	public static final int SCENE_WIDTH = 900;
@@ -33,67 +36,68 @@ public class PositionView extends Application implements View{
 	private Button quitButton;
 	private PostViewer postViewer; 
 	private Board board;
+	private BorderPane layout;
+	private ChangeListener<Boolean> changeListener;
+	private Stage primaryStage;
+	Scene scene;
 
 	
-	public PositionView() {}
-	public PositionView(String[] args) {
-		launch(args);
+
+	public PositionView(Stage primaryStage, ChangeListener<Boolean> changeListener) {
+		this.changeListener = changeListener;
+		this.primaryStage = primaryStage;
+		initView();
+		
 	}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Board");
-
-		quitButton = new Button("Quit");
-		quitButton.setOnAction(e -> primaryStage.close());
-
+	private void initView() {
+		quitButton = new Button("Quit");	
 		postViewer = new PostViewer();
+		board = new Board();
 
-		BorderPane layout = new BorderPane();
+		layout = new BorderPane();
 		layout.setRight(postViewer);
 		layout.setBottom(quitButton);
-		BorderPane.setAlignment(quitButton, Pos.BOTTOM_CENTER);
-
-		board = new Board();
+		BorderPane.setAlignment(quitButton, Pos.BOTTOM_CENTER);	
 		layout.setCenter(board);
 
 		//adding scene and showing stage
-		Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);	
-		board.setLocalListener(scene);
-
-		//TODO flytta till controller	
-		setBoardHandler((observable, oldValue, newValue) -> getPostsByPosition());
+		scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
 		
+		board.setLocalListener(scene);
+		setBoardListener(changeListener);
+		
+		primaryStage.setTitle("Board");
 
 		primaryStage.setScene(scene);
-		primaryStage.show();
-
-	}
-	
-	//TODO flytta till controller
-	private void getPostsByPosition() {
-		BooleanProperty property = board.getActiveChanged();
-		if(property.get()) {
-			System.out.println("Changed");
-		}
-		property.set(false);
+		primaryStage.show();	
 	}
 
 	@Override
-	public void setBoardHandler(ChangeListener<Boolean> handler) {
-		board.setExternalHandler(handler);
-
+	public void setBoardListener(ChangeListener<Boolean> listener) {
+		board.setExternalListener(listener);
+		quitButton.setOnAction(e -> primaryStage.close());
 	}
 
 	@Override
-	public void updatePostList(List<String> postList) {
-		// TODO Auto-generated method stub
-
+	public void updatePostList() {
+		System.out.println("Updating");	
+		postViewer.updatePostList();		
 	}
 
 	@Override
 	public Position getCurrentPosition() {
-		return board.getActiveLabel().getPosition();
+		System.out.println("Position in posView, getCurrPoss" +board.getActiveLabel().getPosition());
+		Position position = board.getActiveLabel().getPosition();		
+		return position;
 	}
+
+	public Board getBoard() {
+		return board;
+	}
+	
+	
+
+
 
 }

@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 import com.wazer.model.User;
 import com.wazer.model.UserRepository;
+import com.wazer.model.UserUtil;
 
 public class LoginController {
-	private User activeUser;
 	Scanner scanner;
 	UserRepository userRepo;
 
@@ -15,7 +15,7 @@ public class LoginController {
 		this.userRepo= userRepo;
 	}
 
-	public User promptToSignIn() {
+	public void promptToSignIn() {
 		boolean validChoice = false;
 		while(!validChoice) {
 			System.out.println("What would you like to do? \n 1. log in \n 2. sign up");
@@ -28,7 +28,6 @@ public class LoginController {
 				validChoice = true;
 			}
 		}
-		return activeUser;
 	}
 
 	private void logIn() {
@@ -39,9 +38,15 @@ public class LoginController {
 			System.out.println("Please enter you password: ");
 			String password = scanner.nextLine();
 			user = userRepo.getUser(username, password);
-		}		
-		setActiveUser(user);
-		System.out.println(activeUser.getFname() + " " + activeUser.getLname() + ". You have successfully logged in");
+		}
+		activateUser(user);
+		
+	}
+
+	private void activateUser(User user) {
+		UserUtil.setActiveUser(user);
+		User activeUser = UserUtil.getActiveUser();
+		System.out.println(activeUser.getFname() + " " + activeUser.getLname() + ". You have successfully logged in");	
 	}
 
 	private void registerUser() {
@@ -57,16 +62,9 @@ public class LoginController {
 		String password = scanner.nextLine();
 
 		User user = userRepo.createNewUser(username, password, fname, lname);
-		setActiveUser(user);
+		activateUser(user);
 	}
 
-	public User getActiveUser() {
-		return activeUser;
-	}
-
-	private void setActiveUser(User activeUser) {
-		this.activeUser = activeUser;
-	}
 
 
 }

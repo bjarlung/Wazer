@@ -1,9 +1,11 @@
 package com.wazer.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.wazer.WazerMain;
+import com.wazer.model.Position;
 import com.wazer.model.Post;
 import com.wazer.model.PostRepository;
 import com.wazer.model.TypeRepository;
@@ -12,15 +14,22 @@ import com.wazer.model.UserRepository;
 import com.wazer.view.PositionView;
 import com.wazer.view.View;
 
+import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.stage.Stage;
+
 
 public class InputController {
 
-	Scanner scanner;
-	PostRepository postRepo;
-	TypeRepository typeRepo;
-	UserRepository userRepo;
-	User user;
-	View view;
+	private Scanner scanner;
+	private PostRepository postRepo;
+	private TypeRepository typeRepo;
+	private UserRepository userRepo;
+	private User user;
+	//private PositionView view;
+	
 
 	public InputController(User user, PostRepository postRepo, TypeRepository typeRepo, UserRepository userRepo) {
 		scanner = new Scanner(System.in);
@@ -66,8 +75,16 @@ public class InputController {
 	}
 
 	private void readPost() {
+		//view = new PositionView(primaryStage, changeListener)
+				
+		//view.setBoardListener((observable, oldValue, newValue) -> updateViewPosts());			
 		
-		view = new PositionView(WazerMain.getArgs());
+		
+		
+		//view.setBoardListener(listener);
+		WazerMain.launch(WazerMain.class, WazerMain.getArgs());
+		
+		System.out.println("View done, back to menu");
 		
 		/*boolean isValid = false;
 		String input = "";
@@ -80,6 +97,8 @@ public class InputController {
 		postRepo.requestPostByUser(Integer.parseInt(input));
 		*/
 	}
+	
+
 
 	private void createNewPost() {
 		System.out.println("Header: ");
@@ -89,11 +108,39 @@ public class InputController {
 
 		int authorId = user.getId();
 		System.out.println("ID author: "+ authorId);
+		int latitude = promptForPosition("Latitude");
+		int longitude = promptForPosition("Longitude");
 
-		int postId = postRepo.createPost(header, content, authorId);
+		int postId = postRepo.createPost(header, content, authorId, latitude, longitude);
 
 		int typeId = getType();
 		postRepo.addType(postId, typeId);
+	}
+
+	private int promptForPosition(String latOrLong) {
+		int inputInt = 0;
+		boolean isValid = false;
+		while(!isValid) {
+			System.out.println(latOrLong + " of your post. Between 0 and 4");
+			String input = scanner.nextLine();
+			if(validatePosition(input)) {
+				isValid = true;
+				inputInt = Integer.parseInt(input);
+			}	
+		}
+		return inputInt;
+	}
+
+	private boolean validatePosition(String input) {
+		boolean isValid = false;
+		if(!checkIfInt(input)) {
+			return false;
+		}
+		int inputAsInt = Integer.parseInt(input);
+		if(inputAsInt < 5 && inputAsInt >= 0) {
+			isValid = true;
+		}
+		return isValid;
 	}
 
 	private int getType() {
@@ -174,4 +221,6 @@ public class InputController {
 		}
 		return isInt;
 	}
+	
+
 }

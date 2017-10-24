@@ -7,10 +7,12 @@ import com.wazer.model.TypeRepositoryJDBC;
 import com.wazer.model.User;
 import com.wazer.model.UserRepository;
 import com.wazer.model.UserRepositoryJDBC;
+import com.wazer.model.UserUtil;
 import com.wazer.view.PositionView;
 import com.wazer.view.View;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
 
 public class Controller {
 	private LoginController loginController;
@@ -22,7 +24,7 @@ public class Controller {
 		loginController = new LoginController(userRepo);
 
 		loginController.promptToSignIn();
-		User user = loginController.getActiveUser();
+		User user = UserUtil.getActiveUser();
 		
 		PostRepository postRepo = new PostRepositoryJDBC();
 		TypeRepository typeRepo = new TypeRepositoryJDBC();
@@ -38,8 +40,12 @@ public class Controller {
 			quit = inputController.displayPostMenu();
 		}
 
-
 	}
+
+	public InputController getInputController() {
+		return inputController;
+	}
+	
 
 
 }

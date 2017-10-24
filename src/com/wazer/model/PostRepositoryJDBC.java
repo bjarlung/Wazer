@@ -14,13 +14,15 @@ public class PostRepositoryJDBC implements PostRepository{
 	private PreparedStatement prepStatement;
 	private Statement statement;
 	private ResultSet resultSet;
-	private static final String INSERT_QUERY = "CALL insert_post(?, ?, ?)"; //insert_post(header, content, author)
+	private static final String INSERT_QUERY = "INSERT INTO posts(header, content, author, latitude, longitude) VALUES (?, ?, ?, ?, ?)";  	// procedure "CALL insert_post(?, ?, ?, ?, ?)";
 	private static final String REQUEST_BY_ID = "SELECT * FROM posts WHERE post_id=?";
 	private static final String REQUEST_BY_USER = "SELECT post_id, header, content, type FROM posts WHERE author=?";  //TODO view -join with type
 	private static final String GET_ID = "SELECT LAST_INSERT_ID()";
 	private static final String UPDATE_TYPE = "UPDATE posts SET type=? WHERE post_id=?";
 	private static final String UPDATE_CONTENT = "UPDATE posts SET content=? WHERE post_id=?";
 	private static final String DELETE_QUERY = "DELETE FROM posts WHERE post_id=?";
+	private static final String REQUEST_BY_POSITION = "SELECT * FROM posts WHERE latitude=? AND longitude=?";
+	
 
 	public PostRepositoryJDBC() {
 		connection = JDBCUtil.getInstance().getConnection();
@@ -65,9 +67,8 @@ public class PostRepositoryJDBC implements PostRepository{
 	}
 
 
-
 	@Override
-	public int createPost(String header, String content, int authorId) {
+	public int createPost(String header, String content, int authorId, int latitude, int longitude) {
 		int id = 0;
 		int affectedRows;
 		try {			
@@ -75,6 +76,8 @@ public class PostRepositoryJDBC implements PostRepository{
 			prepStatement.setString(1, header);
 			prepStatement.setString(2, content);
 			prepStatement.setInt(3, authorId);
+			prepStatement.setInt(4, latitude);
+			prepStatement.setInt(5, longitude);
 			affectedRows = prepStatement.executeUpdate();
 			if(affectedRows > 0) {
 				statement = connection.createStatement();
@@ -89,6 +92,7 @@ public class PostRepositoryJDBC implements PostRepository{
 		prepStatement = null;
 		return id;
 	}
+	
 
 	@Override
 	public boolean editPost(int postId, String column, String newValue) {
@@ -97,7 +101,6 @@ public class PostRepositoryJDBC implements PostRepository{
 			requestPost(postId);
 			return true;
 		}
-
 		return false;
 	}
 
@@ -159,6 +162,39 @@ public class PostRepositoryJDBC implements PostRepository{
 		}
 		prepStatement = null;
 		return successful;
+	}
+
+	@Override
+	public List<Post> requestPostByPosition(Position position) {
+		System.out.println("User position in postRepo. "+ position.getLatitude() + "" + position.getLongitude());
+		List<Post> postList = new ArrayList<>();
+		try {
+			prepStatement = connection.prepareStatement(REQUEST_BY_POSITION);
+			prepStatement.setInt(1, position.getLatitude());
+			prepStatement.setInt(2, position.getLongitude());
+			resultSet = prepStatement.executeQuery();
+			DisplayUtil.printTable(resultSet);
+		
+			resultSet.beforeFirst();
+			while(resultSet.next()) {
+				Post post = new Post();
+				
+				//collection data
+				int id = resultSet.getInt("post_id");
+				String header = resultSet.getString("header");
+				String content = resultSet.getString("content");
+				
+				//converting to object variables
+				post.setPostId(id);
+				post.setHeader(header);
+				post.setContent(content);
+				postList.add(post);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return postList;
 	}
 
 

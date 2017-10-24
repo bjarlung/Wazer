@@ -9,10 +9,9 @@ public class BoardLabel extends Label {
 	private Position position;
 	private boolean isActive;
 	
-	public BoardLabel(int latitude, int longitude, int labelSize) {
-		position = new Position();
-		position.setLatitude(latitude);
-		position.setLongitude(longitude);
+	public BoardLabel(Position position, int labelSize) {
+		this.position = position;
+
 		isActive = false;
 		this.setPrefSize(labelSize, labelSize);
 		
@@ -20,18 +19,15 @@ public class BoardLabel extends Label {
 		//this.setStyle("-fx-border-color: black;");
 	}
 
-	
 
 	public Position getPosition() {
 		return position;
 	}
 
 
-
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-
 
 
 	public boolean isActive() {
