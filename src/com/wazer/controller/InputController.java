@@ -15,6 +15,7 @@ import com.wazer.view.PositionView;
 import com.wazer.view.View;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -75,21 +76,22 @@ public class InputController {
 	}
 
 	private void readPost() {
-		//view = new PositionView(primaryStage, changeListener)
-				
-		//view.setBoardListener((observable, oldValue, newValue) -> updateViewPosts());			
+		if (!WazerMain.getIsInit()) {
+			WazerMain.launch(WazerMain.class, WazerMain.getArgs());
+			WazerMain.setIsInit(true);
+		}
+		else {
+			System.out.println("Sorry, cannot reenter the GUI");
+			//System.out.println("Primary Stage: "+ WazerMain.getPrimaryStageView());
+			//Platform.runLater(() -> WazerMain.getPrimaryStageView().show());
+			//WazerMain.getPrimaryStageView().show();
+		}
 		
-		
-		
-		//view.setBoardListener(listener);
-		WazerMain.launch(WazerMain.class, WazerMain.getArgs());
-		
-		System.out.println("View done, back to menu");
-		
+
 		/*boolean isValid = false;
 		String input = "";
 		while(!isValid) {
-			//TODO enter username
+			//todo enter username
 			System.out.println("Enter the id of the person whose posts you would like to read: ");
 			input = scanner.nextLine();
 			isValid = checkIfInt(input);

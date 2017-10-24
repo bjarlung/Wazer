@@ -99,7 +99,7 @@ public class Board extends StackPane{
 				hbox.getChildren().add(label);
 				String id = convertToId(latitude, longitude);
 				label.setId(id);
-				label.setText(id);
+				//label.setText(id);
 				boardMap.put(id, label);
 			}
 		}

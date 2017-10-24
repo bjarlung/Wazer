@@ -166,7 +166,6 @@ public class PostRepositoryJDBC implements PostRepository{
 
 	@Override
 	public List<Post> requestPostByPosition(Position position) {
-		System.out.println("User position in postRepo. "+ position.getLatitude() + "" + position.getLongitude());
 		List<Post> postList = new ArrayList<>();
 		try {
 			prepStatement = connection.prepareStatement(REQUEST_BY_POSITION);

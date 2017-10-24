@@ -28,18 +28,13 @@ public class Controller {
 		
 		PostRepository postRepo = new PostRepositoryJDBC();
 		TypeRepository typeRepo = new TypeRepositoryJDBC();
-		
-		
+			
 		inputController = new InputController(user, postRepo, typeRepo, userRepo);
 
-
-		//TODO get the users posts, set to List ??
-		
 		boolean quit = false;		
 		while(!quit) {
 			quit = inputController.displayPostMenu();
 		}
-
 	}
 
 	public InputController getInputController() {

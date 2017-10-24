@@ -19,11 +19,12 @@ public class PostViewer extends VBox{
 		buttonList = new ArrayList<>();
 	}
 
-	private void addPost(String postHeader, String idAsString) {
+	private void addPost(String postHeader, String idAsString, String content) {
 		PostButton button = new PostButton(postHeader, POST_BUTTON_WIDTH, POST_BUTTON_HEIGHT);
 		button.setId(idAsString);
 		buttonList.add(button);
 		this.getChildren().add(button);
+		button.setOnAction(e -> new DisplayBox(postHeader, content));
 	}
 
 	public void updatePostList() {
@@ -32,7 +33,8 @@ public class PostViewer extends VBox{
 		for (Post post : postList) {
 			String header = post.getHeader();
 			String idAsString = Integer.toString(post.getPostId());
-			addPost(header, idAsString);
+			String content = post.getContent();
+			addPost(header, idAsString, content);
 		}
 	}
 
