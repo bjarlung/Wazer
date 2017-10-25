@@ -8,6 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1> PostRepositoryJDBC </h1>
+ * JDBC implementation of PostRepository.
+ * Interacts with database
+ * @author Beatrice
+ *
+ */
 public class PostRepositoryJDBC implements PostRepository{
 
 	private Connection connection;
@@ -28,6 +35,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		connection = JDBCUtil.getInstance().getConnection();
 	}
 
+	/**
+	 * Gets specific post from database
+	 */
 	@Override
 	public Post requestPost(int primaryKey) {
 		try {
@@ -42,6 +52,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		return null;
 	}
 
+	/**
+	 * Gets posts from specific user from database
+	 */
 	@Override
 	public List<Integer> requestPostByUser(int userId) {
 		//TODO request by username, join users+posts
@@ -52,8 +65,7 @@ public class PostRepositoryJDBC implements PostRepository{
 			prepStatement.setInt(1, userId);
 			resultSet = prepStatement.executeQuery();
 			DisplayUtil.printTable(resultSet);
-
-			
+		
 			resultSet.beforeFirst();
 			while(resultSet.next()) {
 				Integer id = (Integer)resultSet.getInt("post_id");
@@ -66,7 +78,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		return postIdList;
 	}
 
-
+	/**
+	 * Creates new post row in database
+	 */
 	@Override
 	public int createPost(String header, String content, int authorId, int latitude, int longitude) {
 		int id = 0;
@@ -93,7 +107,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		return id;
 	}
 	
-
+	/**
+	 * Edits specific row in database
+	 */
 	@Override
 	public boolean editPost(int postId, String column, String newValue) {
 		if(column.equals("content")) {
@@ -120,10 +136,12 @@ public class PostRepositoryJDBC implements PostRepository{
 			e.printStackTrace();
 		}
 		prepStatement = null;
-		return successful;
-			
+		return successful;		
 	}
 
+	/**
+	 * Deletes specific post from database
+	 */
 	@Override
 	public boolean deletePost(int primaryKey) {
 		boolean deleted = false;
@@ -144,6 +162,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		return deleted;
 	}
 
+	/**
+	 * Adds the type to a specific post in database
+	 */
 	@Override
 	public boolean addType(int postId, int typeId) {
 		boolean successful = false;
@@ -164,6 +185,9 @@ public class PostRepositoryJDBC implements PostRepository{
 		return successful;
 	}
 
+	/**
+	 * Gets all posts on a specific location (latitude and longitude)
+	 */
 	@Override
 	public List<Post> requestPostByPosition(Position position) {
 		List<Post> postList = new ArrayList<>();

@@ -3,6 +3,12 @@ package com.wazer.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1> SubjectType </h1>
+ * Represents a genre of post
+ * @author Beatrice
+ *
+ */
 public class SubjectType {
 	
 	private int typeId; 

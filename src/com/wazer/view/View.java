@@ -1,13 +1,14 @@
 package com.wazer.view;
 
-import java.util.List;
-
 import com.wazer.model.Position;
-import com.wazer.model.Post;
-
 import javafx.beans.value.ChangeListener;
-import javafx.scene.input.MouseEvent;
 
+/**
+ * <h1> View Interface </h1>
+ * Facade for interaction between GUI and Controller
+ * @author Beatrice
+ *
+ */
 public interface View {
 	void setBoardListener(ChangeListener<Boolean> listener);
 	void updatePostList();

@@ -1,45 +1,46 @@
 package com.wazer.controller;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.wazer.WazerMain;
-import com.wazer.model.Position;
-import com.wazer.model.Post;
 import com.wazer.model.PostRepository;
 import com.wazer.model.TypeRepository;
 import com.wazer.model.User;
 import com.wazer.model.UserRepository;
-import com.wazer.view.PositionView;
-import com.wazer.view.View;
+import com.wazer.model.UserUtil;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.stage.Stage;
-
-
+/**
+ * <h1> InputController </h1>
+ * Connects user with the database
+ * @author Beatrice
+ *
+ */
 public class InputController {
-
 	private Scanner scanner;
 	private PostRepository postRepo;
 	private TypeRepository typeRepo;
 	private UserRepository userRepo;
 	private User user;
-	//private PositionView view;
-	
 
-	public InputController(User user, PostRepository postRepo, TypeRepository typeRepo, UserRepository userRepo) {
+	/**
+	 * Sets variables, initiates scanner, gets active user.
+	 * @param postRepo
+	 * @param typeRepo
+	 * @param userRepo
+	 */
+	public InputController(PostRepository postRepo, TypeRepository typeRepo, UserRepository userRepo) {
 		scanner = new Scanner(System.in);
 		this.postRepo = postRepo;
 		this.typeRepo = typeRepo;
 		this.userRepo = userRepo;
-		this.user = user;
+		user = UserUtil.getActiveUser();
 	}
 
+	/**
+	 * Prompts user to write posts, edit, read, or find friends.
+	 * @return quit
+	 */
 	public boolean displayPostMenu() {
 		boolean quit = false;
 		boolean validChoice = false;
@@ -68,13 +69,19 @@ public class InputController {
 		} 	
 		return quit;
 	}
-
+	
+	/**
+	 * Asks user for input and displays users from database accordingly.
+	 */
 	private void promtForSearch() {
 		System.out.println("Who are you looking for? ");
 		String input = scanner.nextLine();
 		userRepo.displayUsers(input);
 	}
-
+	
+	/**
+	 * Activates GUI
+	 */
 	private void readPost() {
 		if (!WazerMain.getIsInit()) {
 			WazerMain.launch(WazerMain.class, WazerMain.getArgs());
@@ -82,26 +89,12 @@ public class InputController {
 		}
 		else {
 			System.out.println("Sorry, cannot reenter the GUI");
-			//System.out.println("Primary Stage: "+ WazerMain.getPrimaryStageView());
-			//Platform.runLater(() -> WazerMain.getPrimaryStageView().show());
-			//WazerMain.getPrimaryStageView().show();
 		}
-		
-
-		/*boolean isValid = false;
-		String input = "";
-		while(!isValid) {
-			//todo enter username
-			System.out.println("Enter the id of the person whose posts you would like to read: ");
-			input = scanner.nextLine();
-			isValid = checkIfInt(input);
-		}
-		postRepo.requestPostByUser(Integer.parseInt(input));
-		*/
 	}
 	
-
-
+	/**
+	 * Creates new post in database after input from user. 
+	 */
 	private void createNewPost() {
 		System.out.println("Header: ");
 		String header = scanner.nextLine();
@@ -119,6 +112,11 @@ public class InputController {
 		postRepo.addType(postId, typeId);
 	}
 
+	/**
+	 * Asks user for a position to place the post at.
+	 * @param latOrLong
+	 * @return
+	 */
 	private int promptForPosition(String latOrLong) {
 		int inputInt = 0;
 		boolean isValid = false;
@@ -132,7 +130,12 @@ public class InputController {
 		}
 		return inputInt;
 	}
-
+	
+	/**
+	 * Checks if the input is an int within the specified range
+	 * @param input
+	 * @return
+	 */
 	private boolean validatePosition(String input) {
 		boolean isValid = false;
 		if(!checkIfInt(input)) {
@@ -144,7 +147,11 @@ public class InputController {
 		}
 		return isValid;
 	}
-
+	
+	/**
+	 * Asks user to specify genre of post.
+	 * @return
+	 */
 	private int getType() {
 		System.out.println("Type: ");
 		String input = scanner.nextLine();
@@ -152,6 +159,9 @@ public class InputController {
 		return id;
 	}
 
+	/**
+	 * Displays users post and asks for an id.
+	 */
 	private void promptToEdit() {
 		System.out.println("Your posts:");
 		List<Integer> editablePostList = postRepo.requestPostByUser(user.getId());
@@ -169,9 +179,12 @@ public class InputController {
 			System.out.println("Sorry you cannot edit this post.");
 		}
 	}
-
+	
+	/**
+	 * Asks user to specify whether to delete or change a post.
+	 * @param postId
+	 */
 	private void promptForEditChoice(int postId) {
-
 		boolean validChoice = false;
 		while(!validChoice) {
 			System.out.println("Would you like to \n 1. Change this post? \n 2. Delete this post");
@@ -186,9 +199,12 @@ public class InputController {
 				System.out.println("Not a valid choice. Please try again");
 			}
 		}
-
 	}
-
+	
+	/**
+	 * Asks the user to edit content or type of post.
+	 * @param postId
+	 */
 	private void changePost(int postId) {
 		boolean validChoice = false;
 		while(!validChoice) {
@@ -209,10 +225,11 @@ public class InputController {
 		}
 	}
 
-	public List<Post> getUsersPosts() {
-		return null;
-	}
-
+	/**
+	 * Validates whether a string is parsable to an int
+	 * @param input
+	 * @return isInt, boolean
+	 */
 	private boolean checkIfInt(String input){
 		boolean isInt = false;
 		try {
@@ -223,6 +240,5 @@ public class InputController {
 		}
 		return isInt;
 	}
-	
 
 }

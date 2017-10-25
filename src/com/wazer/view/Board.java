@@ -12,11 +12,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * <h1> Board </h1>
+ * Extends StackPane
+ * Puts together the board consisting of boardLabels
+ * @author Beatrice
+ *
+ */
 public class Board extends StackPane{
 	Map<String, BoardLabel> boardMap;
 	public static final int BOARD_SIZE = 500;
@@ -25,24 +31,32 @@ public class Board extends StackPane{
 	private BoardLabel activeLabel;
 	private BooleanProperty activeChanged;
 	
-
+	/**
+	 * Initiates variables. Adds components to board. Gets and adds users position to board.
+	 */
 	public Board() {		
-		boardMap = new HashMap<>();
-		
+		boardMap = new HashMap<>();	
 		initLabels();		
 		this.getChildren().add(boardLabelBox);	
 		activeChanged = new SimpleBooleanProperty(false);
 		String userPositionAsString = UserUtil.getActiveUser().getPosition().toString();
 		activeLabel = boardMap.get(userPositionAsString);
-		System.out.println("setting ActiveLabel in board to: "+ activeLabel);
 		activeLabel.setActive(true);
 	}
-
+	
+	/**
+	 * Sets key listener to scene
+	 * @param scene
+	 */
 	public void setLocalListener(Scene scene) {
 		scene.setOnKeyPressed(e -> move(e.getCode()));
 	}
 
-
+	/**
+	 * Handles events from keys.
+	 * Changes the active label according to users move
+	 * @param code KeyCode
+	 */
 	private void move(KeyCode code) {
 		boolean isChanged = false;
 		int latitude = activeLabel.getPosition().getLatitude();
@@ -79,11 +93,13 @@ public class Board extends StackPane{
 		if(isChanged) {
 			activateLabel(convertToId(latitude, longitude));
 			activeChanged.set(true);
-			System.out.println("move=true in board");
 		}
 	}
 
-
+	/**
+	 * Initiates board labels in HBox and VBox, creating board grid.
+	 * Sets position for each label
+	 */
 	private void initLabels() {
 		boardLabelBox = new VBox();
 		boardLabelBox.setPadding(new Insets(20));
@@ -114,10 +130,12 @@ public class Board extends StackPane{
 		activeLabel = boardMap.get(labelId);
 		activeLabel.setActive(true);
 	}
-
+	/**
+	 * Adds listener to instance variable activeChanged, BooleanProperty 
+	 * @param listener
+	 */
 	public void setExternalListener(ChangeListener<Boolean> listener) {
 		activeChanged.addListener(listener);
-		//activeChanged.set(true);
 	}
 
 	public BoardLabel getActiveLabel() {

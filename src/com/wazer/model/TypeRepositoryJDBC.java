@@ -6,6 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * <h1> TypeRepositoryJDBC </h1>
+ * JDBC implementation of TypeRepository.
+ * Interacts with database
+ * @author Beatrice
+ *
+ */
 public class TypeRepositoryJDBC implements TypeRepository{
 	
 	private Connection connection;
@@ -17,18 +24,13 @@ public class TypeRepositoryJDBC implements TypeRepository{
 	private static final String REQUEST_ID_QUERY = "SELECT type_id FROM subject_types WHERE type_name=?";
 	private static final String GET_ID = "SELECT LAST_INSERT_ID()";
 	
-
 	public TypeRepositoryJDBC() {
 		connection = JDBCUtil.getInstance().getConnection();
 	}
 
-	@Override
-	public SubjectType requestType(int primaryKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	/**
+	 * Adds new type to database
+	 */
 	@Override
 	public int createType(String typeName) {
 		int id = 0;
@@ -52,7 +54,11 @@ public class TypeRepositoryJDBC implements TypeRepository{
 		return id;
 	}
 	
-
+	/**
+	 * Gets the id with the same typeNameas requested
+	 * @param typeName
+	 * @return
+	 */
 	private int requestId(String typeName) {
 		int id = 0;
 		try {
@@ -66,13 +72,28 @@ public class TypeRepositoryJDBC implements TypeRepository{
 		}	
 		return id;
 	}
+	
+	/**
+	 * Not implemented yet
+	 */
+	@Override
+	public SubjectType requestType(int primaryKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	/**
+	 * Not implemented yet
+	 */
 	@Override
 	public boolean editType(int typeId, String nameNew) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Not implemented yet
+	 */
 	@Override
 	public boolean deleteType(int primaryKey) {
 		// TODO Auto-generated method stub

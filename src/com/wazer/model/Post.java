@@ -1,5 +1,12 @@
 package com.wazer.model;
 
+/**
+ * <h1> Post </h1>
+ * Implements Positionable
+ * Representing a post in database
+ * @author Beatrice
+ *
+ */
 public class Post implements Positionable{
 	private int postId;
 	private String header;

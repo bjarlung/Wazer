@@ -1,6 +1,5 @@
 package com.wazer.view;
 
-
 import com.wazer.WazerMain;
 import com.wazer.model.Position;
 import javafx.beans.value.ChangeListener;
@@ -11,6 +10,13 @@ import javafx.scene.layout.BorderPane;
 
 import javafx.stage.Stage;
 
+/**
+ * <h1> PositionView </h1>
+ * Implements View interface.
+ * Represents the game window, with board and post viewer.
+ * @author Beatrice
+ *
+ */
 public class PositionView implements View{
 
 	public static final int SCENE_HEIGHT = 600;
@@ -23,13 +29,20 @@ public class PositionView implements View{
 	private ChangeListener<Boolean> changeListener;
 	private Stage primaryStage;
 	Scene scene;
-
+	/**
+	 * Constructor. Initiates scene showing stage
+	 * @param primaryStage
+	 * @param changeListener
+	 */
 	public PositionView(Stage primaryStage, ChangeListener<Boolean> changeListener) {
 		this.changeListener = changeListener;
 		this.primaryStage = primaryStage;
 		initView();		
 	}
 
+	/**
+	 * Setting up scene with components, adding listeners, showing stage.
+	 */
 	private void initView() {
 		quitButton = new Button("Quit");	
 		postViewer = new PostViewer();
@@ -41,7 +54,6 @@ public class PositionView implements View{
 		BorderPane.setAlignment(quitButton, Pos.BOTTOM_CENTER);	
 		layout.setCenter(board);
 
-		//adding scene and showing stage
 		scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
 		
 		board.setLocalListener(scene);
@@ -52,7 +64,10 @@ public class PositionView implements View{
 		primaryStage.setScene(scene);
 		primaryStage.show();	
 	}
-
+	
+	/**
+	 * Sets changeListener to board. Closes primaryStage on quit button.
+	 */
 	@Override
 	public void setBoardListener(ChangeListener<Boolean> listener) {
 		board.setExternalListener(listener);
@@ -63,13 +78,11 @@ public class PositionView implements View{
 
 	@Override
 	public void updatePostList() {
-		System.out.println("Updating");	
 		postViewer.updatePostList();		
 	}
 
 	@Override
 	public Position getCurrentPosition() {
-		System.out.println("Position in posView, getCurrPoss" +board.getActiveLabel().getPosition());
 		Position position = board.getActiveLabel().getPosition();		
 		return position;
 	}

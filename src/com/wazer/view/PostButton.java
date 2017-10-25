@@ -2,17 +2,21 @@ package com.wazer.view;
 
 import javafx.scene.control.Button;
 
+/**
+ * <h1> PostButton </h1>
+ * Extends Button.
+ * Represents a post in view, setting style.
+ * @author Beatrice
+ *
+ */
 public class PostButton extends Button{
-	private String header;
 	
 	public PostButton(String header, int width, int height) {
-		this.header = header;
 		this.setPrefSize(width, height);
 		this.setText(header);
 	}
 	
 	public void setPostText(String header) {
-		this.header = header;
 		this.setText(header);
 	}
 

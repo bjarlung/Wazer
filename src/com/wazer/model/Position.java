@@ -1,5 +1,11 @@
 package com.wazer.model;
 
+/**
+ * <h1> Position </h1>
+ * Represents a position with latitude and longitude
+ * @author Beatrice
+ *
+ */
 public class Position {
 	private int longitude;
 	private int latitude;

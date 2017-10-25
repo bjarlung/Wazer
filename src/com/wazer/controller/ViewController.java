@@ -15,16 +15,30 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 
+/**
+ * <h1> ViewController </h1>
+ * Controls interaction between View and post database
+ * @author Beatrice
+ *
+ */
 public class ViewController {
 	private PostRepository postRepo;
 	private PositionView view;
 	
+	/**
+	 * Creates instance variables and calls to update view according to database
+	 * @param primaryStage
+	 */
 	public ViewController(Stage primaryStage) {
 		postRepo = new PostRepositoryJDBC();
 		view = new PositionView(primaryStage, getChangeListener());
 		updateViewPosts();
 	}
 	
+	/**
+	 * Creates change listener that updates view from post database
+	 * @return
+	 */
 	private ChangeListener<Boolean> getChangeListener(){
 		ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {		
 			@Override
@@ -34,6 +48,10 @@ public class ViewController {
 		};
 		return listener;
 	}
+	
+	/**
+	 * Updates view with database posts if the user has moved to a new position
+	 */
 	public void updateViewPosts() {
 		BooleanProperty property = view.getBoard().getActiveChanged();
 		if(property.get()) {
@@ -44,8 +62,7 @@ public class ViewController {
 			activeUser.setPostList(postList);
 			view.updatePostList();
 			property.set(false);
-		}
-		
+		}	
 	}
 
 }

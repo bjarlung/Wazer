@@ -2,6 +2,12 @@ package com.wazer.model;
 
 import java.util.List;
 
+/**
+ * <h1> PostRepository Interface </h1>
+ * Interface determining interaction between program and database
+ * @author Beatrice
+ *
+ */
 public interface PostRepository {
 	Post requestPost(int primaryKey);
 	List<Integer> requestPostByUser(int userId);

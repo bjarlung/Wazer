@@ -3,24 +3,24 @@ package com.wazer;
 
 import com.wazer.controller.Controller;
 import com.wazer.controller.ViewController;
-import com.wazer.view.PositionView;
-
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 
-
+/**
+ * <h1> WazerMain </h1>
+ * Main class. Extends Application.
+ * Initiates Controller.
+ * @author Beatrice
+ *
+ */
 public class WazerMain extends Application{
 	private static boolean isInit = false;
 	private static String[] argsVariable;
-	private static Controller controller;
 	private static Stage primaryStageView;
 
 	public static void main(String[] args) {		
 		argsVariable = args;
-		controller = new Controller();			
+		new Controller();			
 	}
 
 	@Override

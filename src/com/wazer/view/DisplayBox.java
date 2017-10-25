@@ -8,8 +8,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * <h1> DisplayBox </h1>
+ * Extends Stage
+ * Pop up window that displays chosen post
+ * @author Beatrice
+ *
+ */
 public class DisplayBox extends Stage{
-	
+	/**
+	 * Creates components, sets style of window. Shows until closed.
+	 * @param header
+	 * @param content
+	 */
 	public DisplayBox(String header, String content) {
 		super();
 		this.initModality(Modality.APPLICATION_MODAL);

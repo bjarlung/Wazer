@@ -6,6 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * <h1> UserRepositoryJDBC </h1>
+ * JDBC implementation of UserRepository.
+ * Interacts with database
+ * @author Beatrice
+ *
+ */
 public class UserRepositoryJDBC implements UserRepository{
 	private Connection connection = JDBCUtil.getInstance().getConnection();
 	private PreparedStatement prepStatement;
@@ -14,11 +21,13 @@ public class UserRepositoryJDBC implements UserRepository{
 	private Statement statement;
 	private ResultSet resultSet;
 
+	/**
+	 * Get data from user in database, passing in username and password
+	 */
 	@Override
 	public User getUser(String username, String password) {
 		User user = null;
 		try {			
-			System.out.println(connection);
 			prepStatement = connection.prepareStatement(LOG_IN_QUERY);
 			prepStatement.setString(1, username);
 			prepStatement.setString(2, password);
@@ -39,6 +48,9 @@ public class UserRepositoryJDBC implements UserRepository{
 		return user;
 	}
 
+	/**
+	 * Creates new user row in database
+	 */
 	@Override
 	public User createNewUser(String username, String password, String fname, String lname) {
 		try {			
@@ -56,18 +68,9 @@ public class UserRepositoryJDBC implements UserRepository{
 		return user;
 	}
 
-	@Override
-	public boolean editUser() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteUser(int primaryKey) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Prints non-sensitive data from all users
+	 */
 	@Override
 	public void displayUsers(String searchString) {
 		String query ="SELECT user_id, username, fname, lname FROM users WHERE fname LIKE '"
@@ -79,10 +82,24 @@ public class UserRepositoryJDBC implements UserRepository{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+	}
+
+	/**
+	 * Not implemented yet
+	 */
+	@Override
+	public boolean editUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * Not implemented yet
+	 */
+	@Override
+	public boolean deleteUser(int primaryKey) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

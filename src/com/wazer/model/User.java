@@ -3,6 +3,13 @@ package com.wazer.model;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * <h1> User </h1>
+ * Extends Person. Implements Positionable.
+ * Represents user of program and database. Has list of posts.
+ * @author Beatrice
+ *
+ */
 public class User extends Person implements Positionable {
 	
 	private String username;

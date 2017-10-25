@@ -1,10 +1,15 @@
 package com.wazer.model;
 
+/**
+ * <h1> Person </h1>
+ * Superclass to User.
+ * @author Beatrice
+ *
+ */
 public class Person {
 	private int id;
 	private String fname;
 	private String lname;
-	//private String address;
 	
 	public Person() {}
 

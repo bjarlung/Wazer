@@ -4,9 +4,18 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+/**
+ * <h1> DisplayUtil </h1>
+ * Used to print data from a resultSet
+ * @author Beatrice
+ *
+ */
 public class DisplayUtil {
-	
-	
+		
+	/**
+	 * Reads and prints any resultSet to console
+	 * @param resultSet
+	 */
 	public static void printTable(ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
