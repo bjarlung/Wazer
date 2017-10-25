@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
  */
 public class PostViewer extends VBox{
 	private List<PostButton> buttonList;
-	public final static int POST_BUTTON_WIDTH = 400;
+	public final static int POST_BUTTON_WIDTH = 350;
 	public final static int POST_BUTTON_HEIGHT = POST_BUTTON_WIDTH/5;
 
 	public PostViewer() {

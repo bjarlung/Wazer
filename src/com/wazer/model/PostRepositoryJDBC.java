@@ -196,8 +196,7 @@ public class PostRepositoryJDBC implements PostRepository{
 			prepStatement.setInt(1, position.getLatitude());
 			prepStatement.setInt(2, position.getLongitude());
 			resultSet = prepStatement.executeQuery();
-			DisplayUtil.printTable(resultSet);
-		
+			
 			resultSet.beforeFirst();
 			while(resultSet.next()) {
 				Post post = new Post();
