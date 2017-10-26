@@ -1,6 +1,6 @@
 package com.wazer.view;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.wazer.model.Post;
@@ -20,7 +20,7 @@ public class PostViewer extends VBox{
 	public final static int POST_BUTTON_HEIGHT = POST_BUTTON_WIDTH/5;
 
 	public PostViewer() {
-		buttonList = new ArrayList<>();
+		buttonList = new LinkedList<>();
 	}
 	
 	/**
